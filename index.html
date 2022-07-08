@@ -12,15 +12,19 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- logo bar -->
     <nav>
         <div class="nav-wrapper blue-grey light-2">
             <a href="#" class="brand-logo center">Logo</a>
         </div>
     </nav>
+    <!-- container for form -->
     <div class="container">  
         <form class="col s12">
             <div class="row">
+                <!-- zip code bar -->
                 <input type="text" placeholder="ZIP Code">
+                <!-- distance dropdown -->
                 <div class="row green-text">
                 <label>Distance</label>
                 <select class="browser-default">
@@ -39,6 +43,7 @@
                         100 Miles</option>
                 </select>
                 </div>
+                <!-- price dropdown -->
                 <div class="row green-text">
                 <label>Price Point</label>
                 <select class="browser-default">
@@ -53,9 +58,15 @@
                         High</option>
                 </select>
                 </div>
+                <!-- submit button for form -->
                 <button class="btn waves-effect waves-light blue-grey light-2" type="submit" name="action">Submit</button>
         </form>
-    </div>          
+    </div>        
+    <!-- placeholder for map -->
+    <div class="container">
+        <img src="https://api.lorem.space/image/movie?w=150&h=220">
+    </div>
+    
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
