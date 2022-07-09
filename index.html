@@ -36,11 +36,11 @@
         <form class="col s12">
             <div class="row">
                 <!-- zip code bar -->
-                <input type="text" placeholder="ZIP Code">
+                <input  id="zip-entry" type="text" placeholder="ZIP Code">
                 <!-- distance dropdown -->
                 <div class="row green-text">
                 <label>Distance</label>
-                <select class="browser-default">
+                <select id="distance-entry"class="browser-default">
                     <option value=""
                             disabled selected>
                         Chose a Distance</option>
@@ -59,7 +59,7 @@
                 <!-- price dropdown -->
                 <div class="row green-text">
                 <label>Price Point</label>
-                <select class="browser-default">
+                <select id="price-entry" class="browser-default">
                     <option value=""
                             disabled selected>
                         Chose a Price</option>
@@ -77,7 +77,9 @@
     </div>        
     <!-- placeholder for map -->
 
-    <div id='map' style='width: 400px; height: 300px;' class="container"></div>
+    <div id="map" class="container">
+        <img src="https://api.lorem.space/image/movie?w=150&h=220">
+    </div>
     
 
     <!-- JQUERY -->

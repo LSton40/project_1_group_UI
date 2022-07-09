@@ -1,9 +1,9 @@
-var searchButton = document.querySelector('#search-button');
+var searchButton = document.querySelector('.btn');
 
 
-  $(document).ready(function(){
-    $('select').formSelect();
-  });
+//   $(document).ready(function(){
+//     $('select').formSelect();
+//   }); 
 
 
 //access token for Marks mapbox acocunt
@@ -30,18 +30,22 @@ var map = new mapboxgl.Map({
 searchButton.addEventListener('click', function (e) {
     e.preventDefault();
     //get zip entry
-    var zipEntry = document.querySelector('.zip-entry').value;
+    var zipEntry = document.querySelector('#zip-entry').value;
     //get distance entry
-    var distanceEntry = document.querySelector('.distance-entry').value;
+    var distanceEntry = document.querySelector('#distance-entry');
+    distanceEntry = distanceEntry.options[distanceEntry.selectedIndex].value;
+    console.log(distanceEntry);
     //get price entry
-    var priceEntry = document.querySelector('.price-entry').value;
+    var priceEntry = document.querySelector('#price-entry');
+    priceEntry = priceEntry.options[priceEntry.selectedIndex].value;
+    console.log(priceEntry);
     //get food type entry
-    var foodTypeEntry = document.querySelector('.food-type-entry').value;
+    //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
 
 
     //pass entries to getUserLocation function
-    // getUserLocation(zipEntry);
+    getUserLocation(zipEntry);
 
 
 });
@@ -49,11 +53,10 @@ searchButton.addEventListener('click', function (e) {
 
 //uses the mapbox geocoding api to get the user's location
 function getUserLocation(zip) {
-    var api = "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-        { zip } + ".json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=" + accessToken;
+    var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
 
     console.log(zip);
-
+    console.log("fetching user location");
     fetch(
         api
     ).then(
@@ -69,6 +72,9 @@ function getUserLocation(zip) {
         console.log(place_name + " " + city + " " + lon + " " + lat);
         
         console.log("lon: " + lon + " lat: " + lat);
+        map.flyTo({
+            center: [lon, lat]
+        });
 
     }).catch(err => console.log(err));
     
@@ -76,7 +82,7 @@ function getUserLocation(zip) {
 
 }
 
-getUserLocation(55902);
+// getUserLocation(55902);
 
 
 
