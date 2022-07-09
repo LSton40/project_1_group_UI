@@ -1,8 +1,14 @@
 var searchButton = document.querySelector('#search-button');
 
 
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+
 //access token for Marks mapbox acocunt
 var accessToken = 'pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeGcxMWMifQ.WHs2hUKaGpUs7G3tJpsMNQ'
+
 
 //minneapolis lon and lat
 var center = [-93.2650, 44.9778];
