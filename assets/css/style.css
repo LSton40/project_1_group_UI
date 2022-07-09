@@ -8,7 +8,15 @@
 /*Global*/
 
 
+/* Mapbox map */
+#map{
 
+}
+
+#search-button{
+    width: 200px;
+    height: 100px;
+}
 
 
 
