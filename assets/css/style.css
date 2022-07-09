@@ -7,10 +7,22 @@
 
 /*Global*/
 
+<<<<<<< HEAD
 header {
     background-color: blue;
 }
+=======
 
+/* Mapbox map */
+#map{
+>>>>>>> 546c2f4a0192741f8fd252172dae21e6778b1917
+
+}
+
+#search-button{
+    width: 200px;
+    height: 100px;
+}
 
 
 
