@@ -7,17 +7,15 @@
 
     <!-- Materialize CSS Framework -->
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"
-        integrity="sha512-17AHGe9uFHHt+QaRYieK7bTdMMHBMi8PeWG99Mf/xEcfBLDCn0Gze8Xcx1KoSZxDnv+KnCC+os/vuQ7jrF/nkw=="
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" 
+        integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
 
 
@@ -74,13 +72,12 @@
                 </select>
                 </div>
                 <!-- submit button for form -->
-                <button class="btn waves-effect waves-light blue-grey light-2" type="submit" name="action">Submit</button>
+                <button class="btn waves-effect waves-light blue-grey light-2" type="submit" name="action" id="search-button">Submit</button>
         </form>
     </div>        
     <!-- placeholder for map -->
-    <div class="container">
-        <img src="https://api.lorem.space/image/movie?w=150&h=220">
-    </div>
+
+    <div id='map' style='width: 400px; height: 300px;' class="container"></div>
     
 
     <!-- JQUERY -->
