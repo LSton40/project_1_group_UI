@@ -43,8 +43,7 @@ searchButton.addEventListener('click', function (e) {
 
 //uses the mapbox geocoding api to get the user's location
 function getUserLocation(zip) {
-    var api = "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-        { zip } + ".json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=" + accessToken;
+    var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
 
     console.log(zip);
 
