@@ -42,16 +42,16 @@ searchButton.addEventListener('click', function (e) {
     console.log(priceEntry);
 
     // changes price point from user interface values to places api for price level; 0 and 1 are low and free, 2 is mid level, 3 and 4 are expensive and high end.
-    if (priceEntry == $) {
-        priceEntry = 0, 1;
-    } else if (priceEntry == $$) {
+    // conditional formatting needed, which api call to use based on if priceEntry is provided
+    var priceEntry2 
+    if (priceEntry == '$') {
+        priceEntry = 1;
+    } else if (priceEntry == '$$') {
         priceEntry = 2;
-    } else if (priceEntry == $$$) {
-        priceEntry = 3, 4;
-    } else {
-        //if nothing is selected, all options are chosen
-        priceEntry = 0, 1, 2, 3, 4
-    }; 
+    } else if (priceEntry == '$$$') {
+        priceEntry = 3
+        priceEntry2 = 4
+    }
 
     //gets the general type of food the user wants
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
@@ -66,7 +66,7 @@ searchButton.addEventListener('click', function (e) {
 
 
 //uses the mapbox geocoding api to get the user's location
-function getUserLocation(zip, distance, price) {
+function getUserLocation(zip, distance, priceEntry) {
     var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
 
     console.log(zip);
@@ -134,7 +134,11 @@ function getLocalRestaurants(lon, lat, distance, price) {
 //adds all the places provided by the getLocalRestaurants function to the map
 function addPlaces(places) {
     //loops through every places(restaurant object) and adds it to the map
-    for (const place of places) {
+    // for (const place of places) {
+        //
+        var randomIndex = Math.floor(Math.random() * places.length)
+        console.log(randomIndex);
+        var place = places[randomIndex];
         //if the place has a geometry property it is a restaurant
         if (place.geometry && place.geometry.location) {
 
@@ -158,5 +162,4 @@ function addPlaces(places) {
     //random variable
     //change the zoom to random variable, set color, then set center
 
-
-}
+// }
