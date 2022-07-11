@@ -1,17 +1,38 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Materialize CSS Framework -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- google api scrips -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
+
+    <!-- Materialize CSS Framework -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+        integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Custom Stylesheet -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+
     <title>Document</title>
 </head>
+
 <body>
+
+
     <!-- logo bar -->
     <nav>
         <div class="nav-wrapper blue-grey light-2">
@@ -19,11 +40,11 @@
         </div>
     </nav>
     <!-- container for form -->
-    <div class="container">  
+    <div class="container">
         <form class="col s12">
             <div class="row">
                 <!-- zip code bar -->
-                <input type="text" placeholder="ZIP Code">
+                <input id="zip-entry" type="text" placeholder="ZIP Code">
                 <!-- distance dropdown -->
                 <div class="row green-text">
                 <label>Distance</label>
@@ -59,22 +80,31 @@
                 </select>
                 </div>
                 <!-- submit button for form -->
-                <button class="btn waves-effect waves-light blue-grey light-2" type="submit" name="action">Submit</button>
+
+                <button class="btn waves-effect waves-light blue-grey light-2" type="submit"
+                    name="action">Submit</button>
+
         </form>
-    </div>        
+    </div>
     <!-- placeholder for map -->
-    <div class="container">
+
+    <div id="map" class="container">
         <img src="https://api.lorem.space/image/movie?w=150&h=220">
     </div>
-    
+
+
     <!-- JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!-- JQUERY UI -->
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
     <!-- Custom JS -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=places&v=weekly"
+        defer></script>
     <script src="assets/js/script.js"></script>
 </body>
+
 </html>
