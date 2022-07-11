@@ -1,16 +1,14 @@
-// var axios = require('axios');
-
 var searchButton = document.querySelector('.btn');
 
 //access token for Marks google apiaccount
-var googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
+const googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
 //access token for Marks mapbox account
-var accessToken = 'pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeGcxMWMifQ.WHs2hUKaGpUs7G3tJpsMNQ'
+var accessToken = "pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeGcxMWMifQ.WHs2hUKaGpUs7G3tJpsMNQ";
 
 //google map
 var map;
 var service;
-
+var placesArray;
 
 //callback function for initializing the google map
 function initMap() {
@@ -40,8 +38,13 @@ searchButton.addEventListener('click', function (e) {
     console.log(distanceEntry);
     //get price entry
     var priceEntry = document.querySelector('#price-entry');
-    priceEntry = priceEntry.options[priceEntry.selectedIndex];
+    priceEntry = priceEntry.options[priceEntry.selectedIndex].value;
     console.log(priceEntry);
+
+
+    
+
+
     //gets the general type of food the user wants
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
@@ -55,12 +58,13 @@ searchButton.addEventListener('click', function (e) {
 //uses the mapbox geocoding api to get the user's location
 function getUserLocation(zip, distance, price) {
     var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
-    
+
     console.log(zip);
     console.log("fetching user location");
     fetch(
         api
     ).then(
+        
         res => data = res.json()
     ).then(data => {
         console.log(data);
@@ -71,9 +75,9 @@ function getUserLocation(zip, distance, price) {
         var lon = data.features[0].geometry.coordinates[0]
         var lat = data.features[0].geometry.coordinates[1]
         console.log(place_name + " " + city + " " + lon + " " + lat);
-    
+
         //calls getLocalRestaurants function
-        getLocalRestaurants(lon, lat, distance, '$');
+        getLocalRestaurants(lon, lat, distance, price );
 
     }).catch(err => {
         console.log(err);
@@ -92,19 +96,20 @@ function getLocalRestaurants(lon, lat, distance, price) {
     var request = {
         location: { lat: lat, lng: lon },
         radius: distance,
-        types: ['restaurant']
-        // price: price
+        types: ["restaurant", "food", "bar"],
+        maxPriceLevel: price,
+        openNow: true
     };
     //change map center to user location
     map.setCenter({ lat: lat, lng: lon });
     //change the zoom of the map
     var zoomLevel = 13;
     map.setZoom(zoomLevel);
-   
-//pagination is for indexing the results(pagination.next is the next page of results)
+
+    //pagination is for indexing the results(pagination.next is the next page of results)
     service.nearbySearch(
         request, (results, status, pagination) => {
-            if(status !== 'OK' || !results){
+            if (status !== 'OK' || !results) {
                 console.log(status);
                 return;
             }
@@ -117,11 +122,12 @@ function getLocalRestaurants(lon, lat, distance, price) {
 
 //adds all the places provided by the getLocalRestaurants function to the map
 function addPlaces(places) {
+    console.log(places);
     //loops through every places(restaurant object) and adds it to the map
     for (const place of places) {
         //if the place has a geometry property it is a restaurant
         if (place.geometry && place.geometry.location) {
-            
+
             const image = {
                 url: place.icon,
                 size: new google.maps.Size(71, 71),
@@ -138,4 +144,9 @@ function addPlaces(places) {
             });
         }
     }
+    //array of place
+    //random variable
+    //change the zoom to random variable, set color, then set center
+
+
 }
