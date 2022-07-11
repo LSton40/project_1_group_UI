@@ -2,10 +2,6 @@
 
 var searchButton = document.querySelector('.btn');
 
-//access token for Marks google apiaccount
-var googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
-//access token for Marks mapbox account
-var accessToken = 'pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeGcxMWMifQ.WHs2hUKaGpUs7G3tJpsMNQ'
 
 //google map
 var map;
