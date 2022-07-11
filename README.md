@@ -3,9 +3,9 @@
 
 ## User Story
 ```
-AS ...
-I WANT ...
-SO THAT ...
+AS a consumer
+I WANT to be able to be given a place to eat with some specifications
+SO THAT I can speed up the process with less debate or have a starting point for debates
 ```
 
 ## Acceptance Criteria
