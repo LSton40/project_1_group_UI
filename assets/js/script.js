@@ -55,6 +55,7 @@ searchButton.addEventListener('click', function (e) {
 function getUserLocation(zip) {
     var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
 
+
     console.log(zip);
     console.log("fetching user location");
     fetch(
@@ -74,7 +75,24 @@ function getUserLocation(zip) {
         console.log("lon: " + lon + " lat: " + lat);
         map.flyTo({
             center: [lon, lat]
+
         });
+
+        var openTable = 'http://opentable.herokuapp.com/api/restaurants/:id';
+        fetch(openTable)
+        .then(response => output = response.json()
+        ).then(output =>{
+
+            console.log(output.name);
+            // for (i=0; i < output.length; i++) {
+            //     var restLat = output[i].lat;
+            //     var restLong = output[i].long;
+
+
+            // }
+
+        }
+        )
 
     }).catch(err => console.log(err));
     
