@@ -120,14 +120,14 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 return;
             }
             //send the results of the restaurant search to the addPlaces function
-            addPlaces(results);
+            generateRandomPlace(results);
         }
     )
 
 }
 
 //adds all the places provided by the getLocalRestaurants function to the map
-function addPlaces(places) {
+function generateRandomPlace(places) {
     //loops through every places(restaurant object) and adds it to the map
     // for (const place of places) {
     //
@@ -136,6 +136,12 @@ function addPlaces(places) {
     var place = places[randomIndex];
     //if the place has a geometry property it is a restaurant
     finalDestination = place;
+    addMarker(place);
+   
+}
+
+//adds a marker to the given place on the map
+function addMarker(place) {
     if (place.geometry && place.geometry.location) {
 
         //remove previous markers
@@ -166,6 +172,8 @@ function addPlaces(places) {
         setRoute();
     }
 }
+
+
 //array of place
 //random variable
 //change the zoom to random variable, set color, then set center
