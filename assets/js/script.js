@@ -174,6 +174,11 @@ function addPlaces(places) {
         mapMarkers[0].setMap(map);
         //as soon as the marker is placed, set the route
         setRoute();
+        //place details, appears above map
+        $('.container-hide').css('display', 'flex')
+        $('#name').text(place.name)
+        $('#address').text(place.vicinity)
+        console.log(place)
     }
 }
 //array of place
