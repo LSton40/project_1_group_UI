@@ -14,13 +14,17 @@ var distance = 1;
 var price;
 var lon;
 var lat;
+var finalDestination;
+var mapMarkers = [];
+var directionsDisplay;
+var directionsService;
 
 //callback function for initializing the google map
 function initMap() {
 
     //arbitrary location for the map
     var minneapolis = { lat: 44.9778, lng: -93.2650 };
-    
+
     map = new google.maps.Map(document.getElementById("map"), {
         center: minneapolis,
         zoom: 5
@@ -32,6 +36,7 @@ function initMap() {
 
 //geolocation for user's position, after user allows the browser to know their position
 navigator.geolocation.getCurrentPosition((position) => {
+
     var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
     lat = coordinates.lat;
     lon = coordinates.lng;
@@ -41,6 +46,9 @@ navigator.geolocation.getCurrentPosition((position) => {
         zoom: 15
     });
     console.log(map);
+    directionsDisplay = new google.maps.DirectionsRenderer;
+    directionsService = new google.maps.DirectionsService;
+
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
 });
@@ -64,6 +72,7 @@ searchButton.addEventListener('click', function (e) {
 
     // changes price point from user interface values to places api for price level; 0 and 1 are low and free, 2 is mid level, 3 and 4 are expensive and high end.
     // conditional formatting needed, which api call to use based on if priceEntry is provided
+
     var priceEntry2 
     if (priceEntry == '$') {
         priceEntry = 1;
@@ -122,31 +131,63 @@ function getLocalRestaurants(lon, lat, distance, price) {
 function addPlaces(places) {
     //loops through every places(restaurant object) and adds it to the map
     // for (const place of places) {
-        //
-        var randomIndex = Math.floor(Math.random() * places.length)
-        console.log(randomIndex);
-        var place = places[randomIndex];
-        //if the place has a geometry property it is a restaurant
-        if (place.geometry && place.geometry.location) {
+    //
+    var randomIndex = Math.floor(Math.random() * places.length)
+    console.log(randomIndex);
+    var place = places[randomIndex];
+    //if the place has a geometry property it is a restaurant
+    finalDestination = place;
+    if (place.geometry && place.geometry.location) {
 
-            const image = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25),
-            };
+        //remove previous markers
+        if (mapMarkers.length > 0) {
+            mapMarkers[0].setMap(null);
+            mapMarkers = [];
 
-            new google.maps.Marker({
-                map,
-                icon: image,
-                title: place.name,
-                position: place.geometry.location,
-            });
         }
+
+
+        const image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25),
+        };
+
+        var marker = new google.maps.Marker({
+            map,
+            icon: image,
+            title: place.name,
+            position: place.geometry.location,
+        });
+        mapMarkers.push(marker);
+        mapMarkers[0].setMap(map);
+        //as soon as the marker is placed, set the route
+        setRoute();
     }
-    //array of place
-    //random variable
-    //change the zoom to random variable, set color, then set center
+}
+//array of place
+//random variable
+//change the zoom to random variable, set color, then set center
 
 // }
+
+//sets the route between the user and the restaurant
+function setRoute() {
+    //the request for the route path from the user(origin) to the restaurant(finalDestination)
+    var request = {
+        origin: { lat: lat, lng: lon },
+        destination: { lat: finalDestination.geometry.location.lat(), lng: finalDestination.geometry.location.lng() },
+        travelMode: 'DRIVING'
+    };
+    //adds the route request to the directions service route function
+    directionsService.route(request, (result, state) => {
+
+
+        if (state == 'OK') {
+            directionsDisplay.setDirections(result);
+            directionsDisplay.setMap(map);
+        }
+    });
+}
