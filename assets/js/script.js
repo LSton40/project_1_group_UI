@@ -30,6 +30,8 @@ function initMap() {
         zoom: 5
     });
     console.log(map);
+    directionsDisplay = new google.maps.DirectionsRenderer;
+    directionsService = new google.maps.DirectionsService;
     service = new google.maps.places.PlacesService(map);
     //documentation for service https://developers.google.com/maps/documentation/javascript/reference/places-service?hl=en
 }
@@ -48,9 +50,6 @@ navigator.geolocation.getCurrentPosition((position) => {
     });
    
     console.log(map);
-    directionsDisplay = new google.maps.DirectionsRenderer;
-    directionsService = new google.maps.DirectionsService;
-
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
 });
