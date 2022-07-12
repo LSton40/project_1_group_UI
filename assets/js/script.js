@@ -18,6 +18,7 @@ var finalDestination;
 var mapMarkers = [];
 var directionsDisplay;
 var directionsService;
+var homeMarker;
 
 //callback function for initializing the google map
 function initMap() {
@@ -47,6 +48,11 @@ navigator.geolocation.getCurrentPosition((position) => {
     map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,
         zoom: 15
+    });
+
+    homeMarker = new google.maps.Marker({
+        position: coordinates,
+        map
     });
    
     console.log(map);
@@ -144,6 +150,7 @@ function addPlaces(places) {
             mapMarkers[0].setMap(null);
             mapMarkers = [];
         }
+        homeMarker.setMap(null);
 
 
         const image = {
