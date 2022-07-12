@@ -19,9 +19,12 @@ var finalDestination;
 var mapMarkers = [];
 var directionsDisplay;
 var directionsService;
+
 var localStorageHistory = JSON.parse(localStorage.getItem('localStorageHistory')) || [];
 var previousRandomNumber = 0;
 var previous = false;
+var homeMarker;
+
 
 //callback function for initializing the google map
 function initMap() {
@@ -46,11 +49,18 @@ navigator.geolocation.getCurrentPosition((position) => {
     var coordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
     lat = coordinates.lat;
     lon = coordinates.lng;
+    console.log(position);
 
     map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,
         zoom: 15
     });
+
+    homeMarker = new google.maps.Marker({
+        position: coordinates,
+        map
+    });
+   
     console.log(map);
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
@@ -90,7 +100,6 @@ searchButton.addEventListener('click', function (e) {
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
     //pass entries and preferences to getUserLocation function to collect restaurant data
-    // getUserLocation(zipEntry, distanceEntry, priceEntry);
     getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
 });
@@ -169,8 +178,8 @@ function addMarker(place, previous) {
         if (mapMarkers.length > 0) {
             mapMarkers[0].setMap(null);
             mapMarkers = [];
-
         }
+        homeMarker.setMap(null);
 
 
         const image = {
