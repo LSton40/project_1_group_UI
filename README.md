@@ -4,19 +4,19 @@
 ## User Story
 ```
 AS a consumer
-I WANT to be able to be given a place to eat with some specifications
-SO THAT I can speed up the process with less debate or have a starting point for debates
+I WANT to be be given a suggestion of where to eat within a given distance and price point
+SO THAT I can expedite the process of choosing with less debate or equivocation;
 ```
 
 ## Acceptance Criteria
 ```
-GIVEN ...
+GIVEN an interface with a map and dropdown menus
 
-WHEN ...
-THEN ...
+WHEN I load the page
+THEN the map centers on my location.
 
-WHEN ...
-THEN ...
+WHEN I select a radial distance and price point and click the submit button
+THEN I am presented with a single restaurant selection within the given specifications.
 
 WHEN ...
 THEN ...

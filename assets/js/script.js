@@ -18,6 +18,7 @@ var finalDestination;
 var mapMarkers = [];
 var directionsDisplay;
 var directionsService;
+
 //callback function for initializing the google map
 function initMap() {
 
@@ -37,7 +38,8 @@ function initMap() {
 
 //geolocation for user's position, after user allows the browser to know their position
 navigator.geolocation.getCurrentPosition((position) => {
-    var coordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
+
+    var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
     lat = coordinates.lat;
     lon = coordinates.lng;
 
@@ -69,7 +71,8 @@ searchButton.addEventListener('click', function (e) {
 
     // changes price point from user interface values to places api for price level; 0 and 1 are low and free, 2 is mid level, 3 and 4 are expensive and high end.
     // conditional formatting needed, which api call to use based on if priceEntry is provided
-    var priceEntry2
+
+    var priceEntry2 
     if (priceEntry == '$') {
         priceEntry = 1;
     } else if (priceEntry == '$$') {
@@ -139,6 +142,7 @@ function addPlaces(places) {
         if (mapMarkers.length > 0) {
             mapMarkers[0].setMap(null);
             mapMarkers = [];
+
         }
 
 
