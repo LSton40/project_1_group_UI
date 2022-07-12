@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -5,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- google api scripts -->
+    <!-- google api scrips -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 
@@ -14,10 +15,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
         integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Custom Stylesheet -->
 
@@ -27,7 +24,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <title>Document</title>
+    <title>Nowhere Special</title>
 </head>
 
 <body>
@@ -47,35 +44,37 @@
                 <input id="zip-entry" type="text" placeholder="ZIP Code">
                 <!-- distance dropdown -->
                 <div class="row green-text">
-                    <label>Distance</label>
-                    <select id="distance-entry" class="browser-default">
-                        <option value="" disabled selected>
-                            Chose a Distance</option>
-                        <option value="5">
-                            5 Miles</option>
-                        <option value="10">
-                            10 Miles</option>
-                        <option value="25">
-                            25 Miles</option>
-                        <option value="50">
-                            50 Miles</option>
-                        <option value="100">
-                            100 Miles</option>
-                    </select>
+                <label>Distance</label>
+                <select id="distance-entry" class="browser-default">
+                    <option class="red-text" value=""
+                            disabled selected>
+                        Choose a Distance</option>
+                    <option value="5">
+                        5 Miles</option>
+                    <option value="10">
+                        10 Miles</option>
+                    <option value="25">
+                        25 Miles</option>
+                    <option value="50">
+                        50 Miles</option>
+                    <option value="100">
+                        100 Miles</option>
+                </select>
                 </div>
                 <!-- price dropdown -->
                 <div class="row green-text">
-                    <label>Price Point</label>
-                    <select id="price-entry" class="browser-default">
-                        <option value="" disabled selected>
-                            Chose a Price</option>
-                        <option value="low">
-                            Low</option>
-                        <option value="medium">
-                            Medium</option>
-                        <option value="high">
-                            High</option>
-                    </select>
+                <label>Price Point</label>
+                <select id="price-entry" class="browser-default">
+                    <option class="red-text" value=""
+                            disabled selected>
+                        Choose a Price</option>
+                    <option value="$">
+                        $</option>
+                    <option value="$$">
+                        $$</option>
+                    <option value="$$$">
+                        $$$</option>
+                </select>
                 </div>
                 <!-- submit button for form -->
 

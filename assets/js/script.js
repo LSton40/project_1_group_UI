@@ -8,13 +8,22 @@ var accessToken = "pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeG
 //google map
 var map;
 var service;
-var placesArray;
 
+//holding variables
+var distance = 1;
+var price;
+var lon;
+var lat;
+var finalDestination;
+var mapMarkers = [];
+var directionsDisplay;
+var directionsService;
 //callback function for initializing the google map
 function initMap() {
-    console.log("inside initMap");
+
     //arbitrary location for the map
     var minneapolis = { lat: 44.9778, lng: -93.2650 };
+
     map = new google.maps.Map(document.getElementById("map"), {
         center: minneapolis,
         zoom: 5
@@ -24,13 +33,30 @@ function initMap() {
     //documentation for service https://developers.google.com/maps/documentation/javascript/reference/places-service?hl=en
 }
 
+//geolocation for user's position, after user allows the browser to know their position
+navigator.geolocation.getCurrentPosition((position) => {
+    var coordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
+    lat = coordinates.lat;
+    lon = coordinates.lng;
+
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: coordinates,
+        zoom: 15
+    });
+    console.log(map);
+    directionsDisplay = new google.maps.DirectionsRenderer;
+    directionsService = new google.maps.DirectionsService;
+    service = new google.maps.places.PlacesService(map);
+    getLocalRestaurants(lon, lat, distance, price)
+});
 
 //Event listener for search button
-
 searchButton.addEventListener('click', function (e) {
     e.preventDefault();
+
     //get zip entry
-    var zipEntry = document.querySelector('#zip-entry').value;
+    // var zipEntry = document.querySelector('#zip-entry').value;
+
     //get distance entry
     var distanceEntry = document.querySelector('#distance-entry');
     distanceEntry = distanceEntry.options[distanceEntry.selectedIndex].value;
@@ -41,65 +67,42 @@ searchButton.addEventListener('click', function (e) {
     priceEntry = priceEntry.options[priceEntry.selectedIndex].value;
     console.log(priceEntry);
 
-
-    
-
+    // changes price point from user interface values to places api for price level; 0 and 1 are low and free, 2 is mid level, 3 and 4 are expensive and high end.
+    // conditional formatting needed, which api call to use based on if priceEntry is provided
+    var priceEntry2
+    if (priceEntry == '$') {
+        priceEntry = 1;
+    } else if (priceEntry == '$$') {
+        priceEntry = 2;
+    } else if (priceEntry == '$$$') {
+        priceEntry = 3
+        priceEntry2 = 4
+    }
 
     //gets the general type of food the user wants
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
     //pass entries and preferences to getUserLocation function to collect restaurant data
-    getUserLocation(zipEntry, distanceEntry, priceEntry);
-
+    // getUserLocation(zipEntry, distanceEntry, priceEntry);
+    getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
 });
 
 
-//uses the mapbox geocoding api to get the user's location
-function getUserLocation(zip, distance, price) {
-    var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
-
-    console.log(zip);
-    console.log("fetching user location");
-    fetch(
-        api
-    ).then(
-        
-        res => data = res.json()
-    ).then(data => {
-        console.log(data);
-        //"city, state zip, country"
-        var place_name = data.features[0].place_name;
-        //returns name of city
-        var city = data.features[0].context[0].text;
-        var lon = data.features[0].geometry.coordinates[0]
-        var lat = data.features[0].geometry.coordinates[1]
-        console.log(place_name + " " + city + " " + lon + " " + lat);
-
-        //calls getLocalRestaurants function
-        getLocalRestaurants(lon, lat, distance, price );
-
-    }).catch(err => {
-        console.log(err);
-    }
-    );
-
-
-
-}
-
 //get local restaurants from yelp business api
 function getLocalRestaurants(lon, lat, distance, price) {
 
-    console.log("inside getLocalResurants");
+    console.log("inside getLocalRestaurants");
 
     var request = {
         location: { lat: lat, lng: lon },
         radius: distance,
-        types: ["restaurant", "food", "bar"],
+        types: ['restaurant', 'food', 'bar'],
         maxPriceLevel: price,
         openNow: true
     };
+
+    console.log(request);
     //change map center to user location
     map.setCenter({ lat: lat, lng: lon });
     //change the zoom of the map
@@ -122,31 +125,64 @@ function getLocalRestaurants(lon, lat, distance, price) {
 
 //adds all the places provided by the getLocalRestaurants function to the map
 function addPlaces(places) {
-    console.log(places);
     //loops through every places(restaurant object) and adds it to the map
-    for (const place of places) {
-        //if the place has a geometry property it is a restaurant
-        if (place.geometry && place.geometry.location) {
+    // for (const place of places) {
+    //
+    var randomIndex = Math.floor(Math.random() * places.length)
+    console.log(randomIndex);
+    var place = places[randomIndex];
+    //if the place has a geometry property it is a restaurant
+    finalDestination = place;
+    if (place.geometry && place.geometry.location) {
 
-            const image = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25),
-            };
-
-            new google.maps.Marker({
-                map,
-                icon: image,
-                title: place.name,
-                position: place.geometry.location,
-            });
+        //remove previous markers
+        if (mapMarkers.length > 0) {
+            mapMarkers[0].setMap(null);
+            mapMarkers = [];
         }
+
+
+        const image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25),
+        };
+
+        var marker = new google.maps.Marker({
+            map,
+            icon: image,
+            title: place.name,
+            position: place.geometry.location,
+        });
+        mapMarkers.push(marker);
+        mapMarkers[0].setMap(map);
+        //as soon as the marker is placed, set the route
+        setRoute();
     }
-    //array of place
-    //random variable
-    //change the zoom to random variable, set color, then set center
+}
+//array of place
+//random variable
+//change the zoom to random variable, set color, then set center
+
+// }
+
+//sets the route between the user and the restaurant
+function setRoute() {
+    //the request for the route path from the user(origin) to the restaurant(finalDestination)
+    var request = {
+        origin: { lat: lat, lng: lon },
+        destination: { lat: finalDestination.geometry.location.lat(), lng: finalDestination.geometry.location.lng() },
+        travelMode: 'DRIVING'
+    };
+    //adds the route request to the directions service route function
+    directionsService.route(request, (result, state) => {
 
 
+        if (state == 'OK') {
+            directionsDisplay.setDirections(result);
+            directionsDisplay.setMap(map);
+        }
+    });
 }
