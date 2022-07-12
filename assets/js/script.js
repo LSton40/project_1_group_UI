@@ -46,7 +46,6 @@ navigator.geolocation.getCurrentPosition((position) => {
         center: coordinates,
         zoom: 15
     });
-    
    
     console.log(map);
     directionsDisplay = new google.maps.DirectionsRenderer;
@@ -145,7 +144,6 @@ function addPlaces(places) {
         if (mapMarkers.length > 0) {
             mapMarkers[0].setMap(null);
             mapMarkers = [];
-
         }
 
 
