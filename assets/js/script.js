@@ -9,12 +9,18 @@ var accessToken = "pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeG
 var map;
 var service;
 
+//holding variables
+var distance = 1;
+var price;
+var lon;
+var lat;
 
 //callback function for initializing the google map
 function initMap() {
-    console.log("inside initMap");
+
     //arbitrary location for the map
     var minneapolis = { lat: 44.9778, lng: -93.2650 };
+    
     map = new google.maps.Map(document.getElementById("map"), {
         center: minneapolis,
         zoom: 5
@@ -24,13 +30,28 @@ function initMap() {
     //documentation for service https://developers.google.com/maps/documentation/javascript/reference/places-service?hl=en
 }
 
+//geolocation for user's position, after user allows the browser to know their position
+navigator.geolocation.getCurrentPosition((position) => {
+    var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    lat = coordinates.lat;
+    lon = coordinates.lng;
+
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: coordinates,
+        zoom: 15
+    });
+    console.log(map);
+    service = new google.maps.places.PlacesService(map);
+    getLocalRestaurants(lon, lat, distance, price)
+});
 
 //Event listener for search button
-
 searchButton.addEventListener('click', function (e) {
     e.preventDefault();
+
     //get zip entry
-    var zipEntry = document.querySelector('#zip-entry').value;
+    // var zipEntry = document.querySelector('#zip-entry').value;
+
     //get distance entry
     var distanceEntry = document.querySelector('#distance-entry');
     distanceEntry = distanceEntry.options[distanceEntry.selectedIndex].value;
@@ -57,46 +78,10 @@ searchButton.addEventListener('click', function (e) {
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
     //pass entries and preferences to getUserLocation function to collect restaurant data
-    getUserLocation(zipEntry, distanceEntry, priceEntry);
-
+    // getUserLocation(zipEntry, distanceEntry, priceEntry);
+    getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
 });
-
-
-
-
-//uses the mapbox geocoding api to get the user's location
-function getUserLocation(zip, distance, priceEntry) {
-    var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
-
-    console.log(zip);
-    console.log("fetching user location");
-    fetch(
-        api
-    ).then(
-        res => data = res.json()
-    ).then(data => {
-        console.log(data);
-        //"city, state zip, country"
-        var place_name = data.features[0].place_name;
-        //returns name of city
-        var city = data.features[0].context[0].text;
-        var lon = data.features[0].geometry.coordinates[0]
-        var lat = data.features[0].geometry.coordinates[1]
-        console.log(place_name + " " + city + " " + lon + " " + lat);
-
-        //calls getLocalRestaurants function
-        getLocalRestaurants(lon, lat, distance, priceEntry);
-
-    }).catch(err => {
-        console.log(err);
-    }
-    );
-
-
-
-}
-
 
 
 //get local restaurants from yelp business api
@@ -111,6 +96,8 @@ function getLocalRestaurants(lon, lat, distance, price) {
         maxPriceLevel: price,
         openNow: true
     };
+
+    console.log(request);
     //change map center to user location
     map.setCenter({ lat: lat, lng: lon });
     //change the zoom of the map
