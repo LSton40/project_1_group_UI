@@ -35,11 +35,14 @@ navigator.geolocation.getCurrentPosition((position) => {
     var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
     lat = coordinates.lat;
     lon = coordinates.lng;
+    console.log(position);
 
     map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,
         zoom: 15
     });
+    
+   
     console.log(map);
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
@@ -78,7 +81,6 @@ searchButton.addEventListener('click', function (e) {
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
     //pass entries and preferences to getUserLocation function to collect restaurant data
-    // getUserLocation(zipEntry, distanceEntry, priceEntry);
     getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
 });
@@ -142,7 +144,9 @@ function addPlaces(places) {
                 icon: image,
                 title: place.name,
                 position: place.geometry.location,
+                phone: place.formatted_phone_number,
             });
+
         }
     }
     //array of place
