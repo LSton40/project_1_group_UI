@@ -10,9 +10,11 @@ var service;
 
 //callback function for initializing the google map
 function initMap() {
-    console.log("inside initMap");
+    // console.log("inside initMap");
+
     //arbitrary location for the map
     var minneapolis = { lat: 44.9778, lng: -93.2650 };
+    
     map = new google.maps.Map(document.getElementById("map"), {
         center: minneapolis,
         zoom: 5
@@ -22,13 +24,34 @@ function initMap() {
     //documentation for service https://developers.google.com/maps/documentation/javascript/reference/places-service?hl=en
 }
 
+navigator.geolocation.getCurrentPosition((position) => {
+    var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    var lat = coordinates.lat;
+    var lon = coordinates.lng;
+
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: coordinates,
+        zoom: 15
+    });
+    console.log(map);
+    service = new google.maps.places.PlacesService(map);
+    return coordinates;
+});
+
+// console.log(navigator.geolocation.getCurrentPosition(position));
+
 
 //Event listener for search button
 
 searchButton.addEventListener('click', function (e) {
     e.preventDefault();
+
+    // var lat = navigator.geolocation.getCurrentPosition();
+    // var lon = navigator.geolocation.getCurrentPosition();
+
     //get zip entry
-    var zipEntry = document.querySelector('#zip-entry').value;
+    // var zipEntry = document.querySelector('#zip-entry').value;
+
     //get distance entry
     var distanceEntry = document.querySelector('#distance-entry');
     distanceEntry = distanceEntry.options[distanceEntry.selectedIndex].value;
@@ -42,75 +65,46 @@ searchButton.addEventListener('click', function (e) {
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
     //pass entries and preferences to getUserLocation function to collect restaurant data
-    getUserLocation(zipEntry, distanceEntry, priceEntry);
-
+    // getUserLocation(zipEntry, distanceEntry, priceEntry);
+    getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
 });
 
 
-//uses the mapbox geocoding api to get the user's location
-function getUserLocation(zip, distance, price) {
-    var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
-<<<<<<< HEAD
+// var accessToken = "pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeGcxMWMifQ.WHs2hUKaGpUs7G3tJpsMNQ";
 
-
-=======
+// //uses the mapbox geocoding api to get the user's location
+// function getUserLocation(zip, distance, price) {
+//     var api = `https://api.mapbox.com/geocoding/v5/mapbox.places/${zip}.json?proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi&access_token=${accessToken}`;
     
->>>>>>> 190b3626466046e8399b132feb58821af33579b3
-    console.log(zip);
-    console.log("fetching user location");
-    fetch(
-        api
-    ).then(
-        res => data = res.json()
-    ).then(data => {
-        console.log(data);
-        //"city, state zip, country"
-        var place_name = data.features[0].place_name;
-        //returns name of city
-        var city = data.features[0].context[0].text;
-        var lon = data.features[0].geometry.coordinates[0]
-        var lat = data.features[0].geometry.coordinates[1]
-        console.log(place_name + " " + city + " " + lon + " " + lat);
-<<<<<<< HEAD
-        
-        console.log("lon: " + lon + " lat: " + lat);
-        map.flyTo({
-            center: [lon, lat]
-
-        });
-
-        var openTable = 'http://opentable.herokuapp.com/api/restaurants/:id';
-        fetch(openTable)
-        .then(response => output = response.json()
-        ).then(output =>{
-
-            console.log(output.name);
-            // for (i=0; i < output.length; i++) {
-            //     var restLat = output[i].lat;
-            //     var restLong = output[i].long;
-
-
-            // }
-
-        }
-        )
-
-    }).catch(err => console.log(err));
-=======
->>>>>>> 190b3626466046e8399b132feb58821af33579b3
+//     // console.log(zip);
+//     // console.log("fetching user location");
+//     fetch(
+//         api
+//     ).then(
+//         res => data = res.json()
+//     ).then(data => {
+//         console.log(data);
+//         //"city, state zip, country"
+//         // var place_name = data.features[0].place_name; 
+//         //returns name of city
+//         // var city = data.features[0].context[0].text;
+//         var lon = data.features[0].geometry.coordinates[0]
+//         var lat = data.features[0].geometry.coordinates[1]
+//         // console.log(place_name + " " + city + " " + lon + " " + lat);
     
-        //calls getLocalRestaurants function
-        getLocalRestaurants(lon, lat, distance, '$');
+//         //calls getLocalRestaurants function
+//         getLocalRestaurants(lon, lat, distance, '$');
 
-    }).catch(err => {
-        console.log(err);
-    }
-    );
+//     })
+    // .catch(err => {
+    //     console.log(err);
+    // }
+    // );
 
 
 
-}
+// }
 
 //get local restaurants from yelp business api
 function getLocalRestaurants(lon, lat, distance, price) {
