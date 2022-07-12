@@ -20,6 +20,14 @@ height:400px;
     margin: 15px auto;
 }
 
+.container-hide {
+    display: none
+}
+
+.border {
+    border: 10px;
+    border-style: solid;
+}
 
 
 
