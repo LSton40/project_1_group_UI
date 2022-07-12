@@ -27,65 +27,63 @@
     <title>Nowhere Special</title>
 </head>
 
-<body>
+<body class="deep-orange lighten-2">
 
 
     <!-- logo bar -->
     <nav>
-        <div class="nav-wrapper blue-grey light-2">
-            <a href="#" class="brand-logo center">Logo</a>
+        <div class="nav-wrapper blue lighten-2">
+            <a href="#" class="brand-logo center black-text">Nowhere Special</a>
         </div>
     </nav>
     <!-- container for form -->
     <div class="container">
         <form class="col s12">
             <div class="row">
-                <!-- zip code bar -->
-                <input id="zip-entry" type="text" placeholder="ZIP Code">
                 <!-- distance dropdown -->
-                <div class="row green-text">
-                <label>Distance</label>
+                <div class="row">
+                <label class="black-text">Distance</label>
                 <select id="distance-entry" class="browser-default">
                     <option class="red-text" value=""
                             disabled selected>
                         Choose a Distance</option>
-                    <option value="5">
+                    <option class="green-text" value="5">
                         5 Miles</option>
-                    <option value="10">
+                    <option class="green-text" value="10">
                         10 Miles</option>
-                    <option value="25">
+                    <option class="green-text" value="25">
                         25 Miles</option>
-                    <option value="50">
+                    <option class="green-text" value="50">
                         50 Miles</option>
-                    <option value="100">
+                    <option class="green-text" value="100">
                         100 Miles</option>
                 </select>
                 </div>
                 <!-- price dropdown -->
-                <div class="row green-text">
-                <label>Price Point</label>
+                <div class="row">
+                <label class="black-text">Price Point</label>
                 <select id="price-entry" class="browser-default">
                     <option class="red-text" value=""
                             disabled selected>
                         Choose a Price</option>
-                    <option value="$">
+                    <option class="green-text" value="$">
                         $</option>
-                    <option value="$$">
+                    <option class="green-text" value="$$">
                         $$</option>
-                    <option value="$$$">
+                    <option class="green-text" value="$$$">
                         $$$</option>
                 </select>
                 </div>
                 <!-- submit button for form -->
-
-                <button class="btn waves-effect waves-light blue-grey light-2" type="submit"
-                    name="action">Submit</button>
-
+                <div class="center-align">
+                    <button class="btn waves-effect waves-light blue lighten-2 black-text" type="submit"
+                        name="action">Submit</button>
+                </div>
         </form>
     </div>
     <!-- placeholder for map -->
 
-    <div id="map" class="container">
+    <div id="map" class="container border">
         <img src="https://api.lorem.space/image/movie?w=150&h=220">
     </div>
 

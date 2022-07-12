@@ -102,8 +102,6 @@ searchButton.addEventListener('click', function (e) {
 //get local restaurants from yelp business api
 function getLocalRestaurants(lon, lat, distance, price) {
 
-    console.log("inside getLocalRestaurants");
-
     var request = {
         location: { lat: lat, lng: lon },
         radius: distance,
@@ -126,6 +124,11 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 console.log(status);
                 return;
             }
+            // console.log(results);
+            // if (pagination.hasNextPage === true) {
+            //     results.concat(pagination.nextPage());
+            // }
+            console.log(results);
             //send the results of the restaurant search to the addPlaces function
             addPlaces(results);
         }
