@@ -6,12 +6,50 @@ var searchButton = document.querySelector('.btn');
 //   }); 
 
 
+// var openTable = 'https://opentable.herokuapp.com/api/cities';
+
+var openTable = 'https://api.yelp.com/v3/businesses/search?term=restaurants';
+var restaurantFind = fetch(openTable)
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(output) {
+
+            console.log(output);
+            // for (i=0; i < output.length; i++) {
+            //     var restLat = output[i].lat;
+            //     var restLong = output[i].long;
+
+
+            // }
+
+        });
+        
+
 //access token for Marks mapbox acocunt
 var accessToken = 'pk.eyJ1IjoibWFya3VzdGJ5IiwiYSI6ImNsNWQyZGF6MDBkdmIzY254dGVyeGcxMWMifQ.WHs2hUKaGpUs7G3tJpsMNQ'
 
 
 //minneapolis lon and lat
+function getLocation() {
+    return new Promise(resolve => {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        resolve({ lat: coords.latitude, lon: coords.longitude });
+      });
+    });
+  }
+  
+  getLocation()
+      .then(data => {
+          // Use the user's location information for weather/etc.
+          console.log(data);
+          return data;
+      }); 
+
+
 var center = [-93.2650, 44.9778];
+
+
 //sets up mapbox map
 mapboxgl.accessToken = accessToken;
 var map = new mapboxgl.Map({
@@ -22,6 +60,7 @@ var map = new mapboxgl.Map({
 });
 
 // https://api.mapbox.com/geocoding/v5/mapbox.places/55902.json?proximity=ip&types=place%2Cpostcode%2Caddress&access_token=YOUR_MAPBOX_ACCESS_TOKEN
+
 
 
 
