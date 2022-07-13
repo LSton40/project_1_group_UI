@@ -107,7 +107,8 @@ function getLocalRestaurants(lon, lat, distance, price) {
         radius: distance,
         types: ['restaurant', 'food', 'bar'],
         maxPriceLevel: price,
-        openNow: true
+        openNow: true,
+        opening_hours
     };
 
     console.log(request);
@@ -178,7 +179,7 @@ function addPlaces(places) {
         $('.container-hide').css('display', 'flex')
         $('#name').text(place.name)
         $('#address').text(place.vicinity)
-        console.log(place)
+        console.log(place.opening_hours)
     }
 }
 //array of place
