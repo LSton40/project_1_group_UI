@@ -5,10 +5,6 @@
     box-sizing: border-box;
 }
 
-a {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
 /* Google map */
 #map{
 width:90%;
@@ -16,9 +12,9 @@ height:400px;
 }
 
 /* custom styles */
-nav h2 {
+/* nav h2 {
     font-size:calc(3px + 2vw)
-}
+} */
 
 .btn{
     width: 100px;

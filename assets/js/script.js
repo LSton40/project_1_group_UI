@@ -42,7 +42,8 @@ function initMap() {
 
 //geolocation for user's position, after user allows the browser to know their position
 navigator.geolocation.getCurrentPosition((position) => {
-    var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    // var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    var coordinates = {lat: 44.078, lng: -92.509} //TO BE DELETED, Reinstate above
     lat = coordinates.lat;
     lon = coordinates.lng;
 
@@ -118,15 +119,16 @@ function getLocalRestaurants(lon, lat, distance, price) {
     service.nearbySearch(
         request, (results, status, pagination) => {
             if (status !== 'OK' || !results) {
-                $('#holdingText').addClass('container-disappear');
-                $('#map').removeClass('container-disappear');
+                // $('#holdingText').addClass('container-disappear');
+                // $('#map').removeClass('container-disappear');
                 return;
             }
-
+            
             //Compiles all pages of results into a single array
             totalResults = totalResults.concat(results);
             pagination.nextPage()
 
+            console.log(totalResults);
             //sends the results of the restaurant search to the generateRandomPlaces function
             if (pagination.hasNextPage === false || totalResults.length === 100) {
 
