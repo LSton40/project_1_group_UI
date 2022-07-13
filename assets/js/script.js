@@ -4,11 +4,6 @@ var previousButton = document.querySelector('.btn-prev');
 //access token for Mark's google api account
 const googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
 
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems, options);
-  });
-
 //google map
 var map;
 var service;
@@ -29,7 +24,6 @@ var previous = false;
 var homeMarker;
 var totalResults = [];
 
-
 //callback function for initializing the google map
 function initMap() {
 
@@ -48,9 +42,7 @@ function initMap() {
 
 //geolocation for user's position, after user allows the browser to know their position
 navigator.geolocation.getCurrentPosition((position) => {
-
-    // var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
-    var coordinates = { lat: 44.078, lng: -92.509 } //TO BE DELETED, Reinstate above
+    var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
     lat = coordinates.lat;
     lon = coordinates.lng;
 
@@ -98,11 +90,11 @@ searchButton.addEventListener('click', function (e) {
     getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
     //hides map and displays waiting text while randomizer cycles through array
-    $('#map').addClass('container-hide');
-    $('#holdingText').removeClass('container-hide');
+    $('#map').addClass('container-disappear');
+    $('#holdingText').removeClass('container-disappear');
+    $('.container-hide').css('display', 'none')
 
 });
-
 
 //get local restaurants from Google Places API
 function getLocalRestaurants(lon, lat, distance, price) {
@@ -112,7 +104,7 @@ function getLocalRestaurants(lon, lat, distance, price) {
         radius: distance,
         types: ['restaurant', 'food', 'bar'],
         maxPriceLevel: price,
-        openNow: true
+        minPriceLevel: price
     };
 
     //change map center to user location
@@ -126,7 +118,8 @@ function getLocalRestaurants(lon, lat, distance, price) {
     service.nearbySearch(
         request, (results, status, pagination) => {
             if (status !== 'OK' || !results) {
-                console.log(status);
+                $('#holdingText').addClass('container-disappear');
+                $('#map').removeClass('container-disappear');
                 return;
             }
 
@@ -140,28 +133,26 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 generateRandomPlace(totalResults);
 
                 //displays map again and hides waiting text
-                $('#holdingText').addClass('container-hide');
-                $('#map').removeClass('container-hide');
+                $('#holdingText').addClass('container-disappear');
+                $('#map').removeClass('container-disappear');
 
             };
-
         }
     )
-
 }
 
 //adds all the places provided by the getLocalRestaurants function to the map
 function generateRandomPlace(places) {
-
+    
     //loops through every places(restaurant object) and adds it to the map
     var randomIndex = Math.floor(Math.random() * places.length)
 
     while (randomIndex == previousRandomNumber) {
         randomIndex = Math.floor(Math.random() * places.length)
     }
-
+    
     var place = places[randomIndex];
-
+    
     addMarker(place);
 }
 
@@ -171,7 +162,6 @@ function addMarker(place, previous) {
     if (place.geometry && place.geometry.location) {
         //if place is a restaurant
         if (!previous) {
-
             localStorageHistory.push(place);
             localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
             finalDestination = place;
@@ -224,8 +214,8 @@ previousButton.addEventListener('click', function (e) {
     e.preventDefault();
 
     if (localStorageHistory.length > 0) {
-
         var loadMarker = localStorageHistory;
+
         previous = true;
         addMarker(localStorageHistory.pop(), previous);
         previous = false;
@@ -234,7 +224,6 @@ previousButton.addEventListener('click', function (e) {
 
 //sets the route between the user and the restaurant
 function setRoute() {
-
     //the request for the route path from the user(origin) to the restaurant(finalDestination)
     var request = {
         origin: { lat: lat, lng: lon },

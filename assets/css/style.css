@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+a {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 /* Google map */
 #map{
 width:90%;
@@ -14,27 +18,24 @@ height:400px;
 .btn{
     width: 100px;
     height: 50px;
-    /* margin: 15px auto; */
-    background-color: #64B5F6 !important;
+    background-color: #64B5F6;
 }
 
 #button-container{
     width: 100%;
     height: 100px;
-    /* margin: 15px auto; */
 }
 
 #prev-container{
     height: 100px;
-    /* margin: 15px auto; */
 }
 
 #main-row{
     padding-bottom: 10px;
 }
 
-.container-hide {
-    display: none
+.container-hide, .container-disappear {
+    display: none;
 }
 
 .border {
@@ -44,7 +45,7 @@ height:400px;
 }
 
 #holdingText p {
-     font-size: 3vw;
+    font-size: 3vw;
 }
 
 .ellipsis {
@@ -69,4 +70,32 @@ height:400px;
     to {
         width: 36px;
     }
+}
+
+.animate-character
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
 }

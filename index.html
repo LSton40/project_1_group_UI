@@ -17,7 +17,7 @@
 
     <!-- Google API Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-
+    
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -26,11 +26,10 @@
 
 <body class="deep-orange lighten-2">
 
-
     <!-- logo bar -->
     <nav>
         <div class="nav-wrapper blue lighten-2">
-            <a href="#" class="brand-logo center black-text">Nowhere Special</a>
+            <a href="#" class="brand-logo center black-text ">Nowhere Special</a>
         </div>
     </nav>
     <!-- container for form -->
@@ -72,7 +71,7 @@
                 <div id="button-container" class="row container">
                     <!-- submit button for form -->
                     <div id="submit-container" class=" col s s12 m3 offset-m2 l3 offset-l2 center-align">
-                        <button class="btn btn-submit waves-effect waves-light" type="submit"
+                        <button  class="btn btn-submit waves-effect waves-light" type="submit"
                             name="action">Search</button>
                     </div>
                     <div id="prev-container" class="col s12 m3 offset-m3 l3 offset-l2 center-align">
@@ -90,11 +89,6 @@
             </li>
             <li>Address<p id="address"></p>
             </li>
-            <li>Hours:<p id="hours"></p>
-            </li>
-            <li>Phone Number:<p id="number"></p>
-            </li>
-
         </ul>
     </div>
 
@@ -102,17 +96,15 @@
     <div id="map" class="container border"></div>
 
     <!-- Selection Holding screen -->
-    <div id="holdingText" class="container-hide container">
-        <p>Hang on, I'm thinking about it!<span class="ellipsis">...</span></p>
-        
+    <div id="holdingText" class="container-disappear container">
+        <p class="animate-character">Hang on, I'm thinking about it!<span class="ellipsis">...</span></p>
     </div>
-
-    <!-- history -->
-
 
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Custom JS -->
     <script
