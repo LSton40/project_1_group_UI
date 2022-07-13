@@ -1,5 +1,5 @@
-var searchButton = document.querySelector('.btn');
-var previousButton = document.querySelector('.prev-btn');
+var searchButton = document.querySelector('.btn-submit');
+var previousButton = document.querySelector('.btn-prev');
 
 //access token for Marks google apiaccount
 const googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
@@ -62,7 +62,7 @@ navigator.geolocation.getCurrentPosition((position) => {
         position: coordinates,
         map
     });
-   
+
     console.log(map);
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
@@ -135,7 +135,8 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 console.log(status);
                 return;
             }
-           
+
+ 
             //Compiles all pages of results into a single array
             totalResults = totalResults.concat(results);
             pagination.nextPage()
@@ -157,9 +158,9 @@ function generateRandomPlace(places) {
     //loops through every places(restaurant object) and adds it to the map
     // for (const place of places) {
     //
-    
+
     var randomIndex = Math.floor(Math.random() * places.length)
-    while(randomIndex == previousRandomNumber){
+    while (randomIndex == previousRandomNumber) {
         randomIndex = Math.floor(Math.random() * places.length)
     }
     console.log(randomIndex);
@@ -173,16 +174,16 @@ function generateRandomPlace(places) {
 function addMarker(place, previous) {
     if (place.geometry && place.geometry.location) {
         //if place is a restaurant
-        if(!previous){
+        if (!previous) {
             console.log(previous);
 
-        localStorageHistory.push(place);
-        localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
-        console.log(localStorageHistory);
-        finalDestination = place;
+            localStorageHistory.push(place);
+            localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
+            console.log(localStorageHistory);
+            finalDestination = place;
 
         }
-        else{
+        else {
             finalDestination = place;
             localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory))
 
@@ -228,7 +229,7 @@ function addMarker(place, previous) {
 
 previousButton.addEventListener('click', function (e) {
     e.preventDefault();
-    console.log("local storage history: " + localStorageHistory  );
+    console.log("local storage history: " + localStorageHistory);
     if (localStorageHistory.length > 0) {
         console.log(localStorageHistory.length);
         var loadMarker = localStorageHistory;
@@ -237,6 +238,7 @@ previousButton.addEventListener('click', function (e) {
         console.log("the type of local storage history is: " + typeof localStorageHistory);
         previous = true;
         addMarker(localStorageHistory.pop(), previous);
+        console.log("set false first");
         previous = false;
         // localStorageHistory.shift();
         console.log("local storage history post shift: " + localStorageHistory);
@@ -246,37 +248,19 @@ previousButton.addEventListener('click', function (e) {
 });
 
 
-
-
-
-
-
-
-//array of place
-//random variable
-//change the zoom to random variable, set color, then set center
-
-// }
-
 //sets the route between the user and the restaurant
 function setRoute() {
-var tempLat;
-var tempLon;
-
-    if(previous){
-        tempLat = finalDestination.geometry.location.lat;
-        tempLon = finalDestination.geometry.location.lng;
-    }
-    else{
-        tempLat = finalDestination.geometry.location.lat();
-        tempLon =  finalDestination.geometry.location.lng();
-    }
-
+    var tempLat;
+    var tempLon;
+    var tempLocation;
+    console.log(finalDestination[0]);
+    console.log(finalDestination);
+    console.log("using false first");
 
     //the request for the route path from the user(origin) to the restaurant(finalDestination)
     var request = {
         origin: { lat: lat, lng: lon },
-        destination: { lat: tempLat, lng: tempLon},
+        destination: finalDestination.geometry.location,
         travelMode: 'DRIVING'
     };
     //adds the route request to the directions service route function
