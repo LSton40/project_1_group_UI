@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+a {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 /* Google map */
 #map{
 width:90%;
@@ -12,6 +16,10 @@ height:400px;
 }
 
 /* custom styles */
+nav h2 {
+    font-size:calc(3px + 2vw)
+}
+
 .btn{
     width: 100px;
     height: 50px;
@@ -28,8 +36,8 @@ height:400px;
     height: 100px;
 }
 
-.container-hide {
-    display: none
+.container-hide, .container-disappear {
+    display: none;
 }
 
 .border {
@@ -39,7 +47,7 @@ height:400px;
 }
 
 #holdingText p {
-     font-size: 3vw;
+    font-size: 3vw;
 }
 
 .ellipsis {
@@ -66,8 +74,33 @@ height:400px;
     }
 }
 
-nav h2 {
-    font-size:calc(3px + 2vw)
+.animate-character
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+
 }
 
 @media (max-width: 436px) {
@@ -80,6 +113,4 @@ nav h2 {
 @media (max-width: 350px) {
     nav h2 {
         font-size: 10px;
-
     }
-}
