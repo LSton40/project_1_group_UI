@@ -237,18 +237,6 @@ previousButton.addEventListener('click', function (e) {
 });
 
 
-
-
-
-
-
-
-//array of place
-//random variable
-//change the zoom to random variable, set color, then set center
-
-// }
-
 //sets the route between the user and the restaurant
 function setRoute() {
     var tempLat;
@@ -257,54 +245,6 @@ function setRoute() {
     console.log(finalDestination[0]);
     console.log(finalDestination);
     console.log("using false first");
-
-    // try {
-    //     tempLat = finalDestination[0].geometry.location.lat();
-    //     tempLon = finalDestination[0].geometry.location.lng();
-    // }
-    // catch (err) {
-    //     console.log(err);
-       
-    // }
-    // try{
-    //     tempLat = finalDestination.geometry.location.lat();
-    //     tempLon = finalDestination.geometry.location.lng();
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-
-    // try {
-    //     tempLat = finalDestination[0].geometry.location.lat;
-    //     tempLon = finalDestination[0].geometry.location.lng;
-    //     console.log("using [0] : " + tempLat + " " + tempLon);
-    // }
-    // catch (err) {
-    //     console.log(err);
-    // }
-    // try{
-    //     tempLat = finalDestination.geometry.location.lat();
-    //     tempLon = finalDestination.geometry.location.lng();
-    //     console.log("using lat() and lng() : " + tempLat + " " + tempLon);
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-    // try{
-    //     tempLat = parseFloat(finalDestination[0].geometry.location.lat());
-    //     tempLon = parseFloat(finalDestination[0].geometry.location.lng());
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-    // try{
-    //     tempLat = parseFloat(finalDestination.geometry.location.lat);
-    //     tempLon = parseFloat(finalDestination.geometry.location.lng);
-    // }
-    // catch(err){
-    //     console.log(err);
-    // }
-
 
     //the request for the route path from the user(origin) to the restaurant(finalDestination)
     var request = {
