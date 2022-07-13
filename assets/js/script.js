@@ -114,8 +114,9 @@ function getLocalRestaurants(lon, lat, distance, price) {
     var request = {
         location: { lat: lat, lng: lon },
         radius: distance,
-        types: ['restaurant', 'food', 'bar'],
+        types: ['restaurant', 'food', 'bar', 'meal_takeaway', 'meal_delivery'],
         maxPriceLevel: price,
+        minPriceLevel: price,
     };
 
     //change map center to user location
@@ -175,12 +176,8 @@ function addMarker(place, previous) {
         //if place is a restaurant
         if (!previous) {
 
-
-            console.log(previous); //DELETE
-
             localStorageHistory.push(place);
             localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
-            console.log(localStorageHistory); //DELETE
             finalDestination = place;
         }
         else {
@@ -222,8 +219,6 @@ function addMarker(place, previous) {
         $('.container-hide').css('display', 'flex')
         $('#name').text(place.name)
         $('#address').text(place.vicinity)
-        console.log(place) //DELETE
-
     };
 };
 
@@ -231,25 +226,14 @@ function addMarker(place, previous) {
 previousButton.addEventListener('click', function (e) {
     e.preventDefault();
 
-    console.log("local storage history: " + localStorageHistory); //DELETE
-
     if (localStorageHistory.length > 0) {
-
-        console.log(localStorageHistory.length); //DELETE
 
         var loadMarker = localStorageHistory;
 
-        console.log("local storage history: " + localStorageHistory); //DELETE
-        console.log(loadMarker[0]); //DELETE
-        console.log("the type of local storage history is: " + typeof localStorageHistory); //DELETE
-
         previous = true;
         addMarker(localStorageHistory.pop(), previous);
-        console.log("set false first"); //DELETE
         previous = false;
         // localStorageHistory.shift();
-        console.log("local storage history post shift: " + localStorageHistory); //DELETE
-
     }
 });
 
@@ -260,10 +244,6 @@ function setRoute() {
     var tempLon;
     var tempLocation;
 
-    console.log(finalDestination[0]); //DELETE
-    console.log(finalDestination); //DELETE
-    console.log("using false first"); //DELETE
-
     //the request for the route path from the user(origin) to the restaurant(finalDestination)
     var request = {
         origin: { lat: lat, lng: lon },
@@ -273,7 +253,6 @@ function setRoute() {
 
     //adds the route request to the directions service route function
     directionsService.route(request, (result, state) => {
-        console.log("request: " + request + " result: " + " state: " + state); //DELETE
 
         if (state == 'OK') {
             directionsDisplay.setDirections(result);
