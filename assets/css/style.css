@@ -5,46 +5,49 @@
     box-sizing: border-box;
 }
 
-/*Global*/
+a {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 
-
-/* Mapbox map */
+/* Google map */
 #map{
 width:90%;
 height:400px;
 }
 
+/* custom styles */
+nav h2 {
+    font-size:calc(3px + 2vw)
+}
 
 .btn{
     width: 100px;
     height: 50px;
-    /* margin: 15px auto; */
-    background-color: #64B5F6;
+    background-color: #64B5F6 !important;
+    color: black;
 }
-
 
 #button-container{
     width: 100%;
-    height: 100px;
-    /* margin: 15px auto; */
+    height: 50px;
 }
 
 #prev-container{
     height: 100px;
-    /* margin: 15px auto; */
 }
 
-#main-row{
-    padding-bottom: 50px;
-}
-
-.container-hide {
-    display: none
+.container-hide, .container-disappear {
+    display: none;
 }
 
 .border {
     border: 10px;
     border-style: solid;
+    border-radius: 10px;
+}
+
+#holdingText p {
+    font-size: 3vw;
 }
 
 .ellipsis {
@@ -59,7 +62,7 @@ height:400px;
         width: 2px;
     }
     to {
-        width: 12px;
+        width: 36px;
     }
 }
 @-moz-keyframes ellipsis {
@@ -67,24 +70,47 @@ height:400px;
         width: 2px;
     }
     to {
-        width: 12px;
+        width: 36px;
     }
 }
 
-
-
-
-
-
-
-
-
-/*Mobile first media queries*/
-@media screen and (min-width: 480px) {
-    
+.animate-character
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
 }
 
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
 
-@media screen and (min-width: 768px) {
-    
 }
+
+@media (max-width: 436px) {
+    nav h2 {
+        font-size: 13px;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 350px) {
+    nav h2 {
+        font-size: 10px;
+    }
