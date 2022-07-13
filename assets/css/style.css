@@ -15,7 +15,8 @@ height:400px;
     width: 100px;
     height: 50px;
     /* margin: 15px auto; */
-    background-color: #64B5F6;
+    background-color: #64B5F6 !important;
+    color: black;
 }
 
 #button-container{
