@@ -40,7 +40,7 @@ WHEN I click the Search button again
 THEN I am presented with a different restaurant selection within the given specifications.
 
 WHEN I click the Previous button
-THEN the previous search result is presented again.
+THEN the previous search result is presented again, even upon page refresh.
 
 ```
 
