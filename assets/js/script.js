@@ -24,6 +24,7 @@ var localStorageHistory = JSON.parse(localStorage.getItem('localStorageHistory')
 var previousRandomNumber = 0;
 var previous = false;
 var homeMarker;
+var totalResults = [];
 
 
 //callback function for initializing the google map
@@ -46,7 +47,8 @@ function initMap() {
 //geolocation for user's position, after user allows the browser to know their position
 navigator.geolocation.getCurrentPosition((position) => {
 
-    var coordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
+    // var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    var coordinates = {lat: 44.078, lng: -92.509}
     lat = coordinates.lat;
     lon = coordinates.lng;
     console.log(position);
@@ -102,6 +104,9 @@ searchButton.addEventListener('click', function (e) {
     //pass entries and preferences to getUserLocation function to collect restaurant data
     getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
+    $('#map').addClass('container-hide');
+    $('#holdingText').removeClass('container-hide');
+
 });
 
 
@@ -130,13 +135,18 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 console.log(status);
                 return;
             }
-            // console.log(results);
-            // if (pagination.hasNextPage === true) {
-            //     results.concat(pagination.nextPage());
-            // }
-            console.log(results);
+           
+            //Compiles all pages of results into a single array
+            totalResults = totalResults.concat(results);
+            pagination.nextPage()
+
             //send the results of the restaurant search to the addPlaces function
-            generateRandomPlace(results);
+            if (pagination.hasNextPage === false || totalResults.length === 200) {
+                generateRandomPlace(totalResults);
+                $('#holdingText').addClass('container-hide');
+                $('#map').removeClass('container-hide');
+                };
+            
         }
     )
 
