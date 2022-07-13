@@ -6,17 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- google api scrips -->
+    <!-- google api scripts -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-
 
     <!-- Materialize CSS Framework -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
         integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Custom Stylesheet -->
+
+    <!-- Google API Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
 
     <title>Nowhere Special</title>
@@ -34,10 +36,8 @@
     <!-- container for form -->
     <div class="container">
         <form class="col s12">
-
             <div id="main-row" class="row">
                 <!-- distance dropdown -->
-
                 <div class="row">
                     <label class="black-text">Distance</label>
                     <select id="distance-entry" class="browser-default">
@@ -73,11 +73,11 @@
                     <!-- submit button for form -->
                     <div id="submit-container" class=" col s s12 m3 offset-m2 l3 offset-l2 center-align">
                         <button  class="btn btn-submit waves-effect waves-light" type="submit"
-                            name="action">Submit</button>
+                            name="action">Search</button>
                     </div>
                     <div id="prev-container" class="col s12 m3 offset-m3 l3 offset-l2 center-align">
                         <button class="btn btn-prev waves-effect waves-light" type="submit"
-                            name="action">Prev</button>
+                            name="action">Previous</button>
                     </div>
                 </div>
             </div>
@@ -100,10 +100,7 @@
     </div>
     
     <!-- placeholder for map -->
-
-    <div id="map" class="container border">
-        <img src="https://api.lorem.space/image/movie?w=150&h=220">
-    </div>
+    <div id="map" class="container border"></div>
 
     <br>
 
@@ -118,9 +115,6 @@
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!-- JQUERY UI -->
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
     <!-- Custom JS -->
     <script
