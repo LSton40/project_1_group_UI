@@ -102,10 +102,10 @@ function getLocalRestaurants(lon, lat, distance, price) {
     var request = {
         location: { lat: lat, lng: lon },
         radius: distance,
-        types: ['restaurant', 'food', 'bar'],
+        types: ['restaurant', 'food', 'bar', 'meal_takeaway', 'meal_delivery'],
         maxPriceLevel: price,
         minPriceLevel: price
-    };
+        };
 
     //change map center to user location
     map.setCenter({ lat: lat, lng: lon });
@@ -205,7 +205,6 @@ function addMarker(place, previous) {
         $('.container-hide').css('display', 'flex')
         $('#name').text(place.name)
         $('#address').text(place.vicinity)
-
     };
 };
 
