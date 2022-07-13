@@ -1,5 +1,5 @@
-var searchButton = document.querySelector('.btn');
-var previousButton = document.querySelector('.prev-btn');
+var searchButton = document.querySelector('.btn-submit');
+var previousButton = document.querySelector('.btn-prev');
 
 //access token for Marks google apiaccount
 const googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
@@ -19,9 +19,12 @@ var finalDestination;
 var mapMarkers = [];
 var directionsDisplay;
 var directionsService;
+
 var localStorageHistory = JSON.parse(localStorage.getItem('localStorageHistory')) || [];
 var previousRandomNumber = 0;
 var previous = false;
+var homeMarker;
+
 
 //callback function for initializing the google map
 function initMap() {
@@ -46,11 +49,18 @@ navigator.geolocation.getCurrentPosition((position) => {
     var coordinates = { lat: position.coords.latitude, lng: position.coords.longitude };
     lat = coordinates.lat;
     lon = coordinates.lng;
+    console.log(position);
 
     map = new google.maps.Map(document.getElementById("map"), {
         center: coordinates,
         zoom: 15
     });
+
+    homeMarker = new google.maps.Marker({
+        position: coordinates,
+        map
+    });
+
     console.log(map);
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
@@ -90,7 +100,6 @@ searchButton.addEventListener('click', function (e) {
     //var foodTypeEntry = document.querySelector('.food-type-entry').value;
 
     //pass entries and preferences to getUserLocation function to collect restaurant data
-    // getUserLocation(zipEntry, distanceEntry, priceEntry);
     getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
 });
@@ -98,8 +107,6 @@ searchButton.addEventListener('click', function (e) {
 
 //get local restaurants from yelp business api
 function getLocalRestaurants(lon, lat, distance, price) {
-
-    console.log("inside getLocalRestaurants");
 
     var request = {
         location: { lat: lat, lng: lon },
@@ -123,6 +130,11 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 console.log(status);
                 return;
             }
+            // console.log(results);
+            // if (pagination.hasNextPage === true) {
+            //     results.concat(pagination.nextPage());
+            // }
+            console.log(results);
             //send the results of the restaurant search to the addPlaces function
             generateRandomPlace(results);
         }
@@ -135,9 +147,9 @@ function generateRandomPlace(places) {
     //loops through every places(restaurant object) and adds it to the map
     // for (const place of places) {
     //
-    
+
     var randomIndex = Math.floor(Math.random() * places.length)
-    while(randomIndex == previousRandomNumber){
+    while (randomIndex == previousRandomNumber) {
         randomIndex = Math.floor(Math.random() * places.length)
     }
     console.log(randomIndex);
@@ -151,16 +163,16 @@ function generateRandomPlace(places) {
 function addMarker(place, previous) {
     if (place.geometry && place.geometry.location) {
         //if place is a restaurant
-        if(!previous){
+        if (!previous) {
             console.log(previous);
 
-        localStorageHistory.push(place);
-        localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
-        console.log(localStorageHistory);
-        finalDestination = place;
+            localStorageHistory.push(place);
+            localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
+            console.log(localStorageHistory);
+            finalDestination = place;
 
         }
-        else{
+        else {
             finalDestination = place;
             localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory))
 
@@ -169,8 +181,8 @@ function addMarker(place, previous) {
         if (mapMarkers.length > 0) {
             mapMarkers[0].setMap(null);
             mapMarkers = [];
-
         }
+        homeMarker.setMap(null);
 
 
         const image = {
@@ -192,6 +204,12 @@ function addMarker(place, previous) {
         //as soon as the marker is placed, set the route
         setRoute();
 
+        //place details, appears above map
+        $('.container-hide').css('display', 'flex')
+        $('#name').text(place.name)
+        $('#address').text(place.vicinity)
+        console.log(place)
+
     }
 }
 
@@ -200,7 +218,7 @@ function addMarker(place, previous) {
 
 previousButton.addEventListener('click', function (e) {
     e.preventDefault();
-    console.log("local storage history: " + localStorageHistory  );
+    console.log("local storage history: " + localStorageHistory);
     if (localStorageHistory.length > 0) {
         console.log(localStorageHistory.length);
         var loadMarker = localStorageHistory;
@@ -209,6 +227,7 @@ previousButton.addEventListener('click', function (e) {
         console.log("the type of local storage history is: " + typeof localStorageHistory);
         previous = true;
         addMarker(localStorageHistory.pop(), previous);
+        console.log("set false first");
         previous = false;
         // localStorageHistory.shift();
         console.log("local storage history post shift: " + localStorageHistory);
@@ -232,23 +251,65 @@ previousButton.addEventListener('click', function (e) {
 
 //sets the route between the user and the restaurant
 function setRoute() {
-var tempLat;
-var tempLon;
+    var tempLat;
+    var tempLon;
+    var tempLocation;
+    console.log(finalDestination[0]);
+    console.log(finalDestination);
+    console.log("using false first");
 
-    if(previous){
-        tempLat = finalDestination.geometry.location.lat;
-        tempLon = finalDestination.geometry.location.lng;
-    }
-    else{
-        tempLat = finalDestination.geometry.location.lat();
-        tempLon =  finalDestination.geometry.location.lng();
-    }
+    // try {
+    //     tempLat = finalDestination[0].geometry.location.lat();
+    //     tempLon = finalDestination[0].geometry.location.lng();
+    // }
+    // catch (err) {
+    //     console.log(err);
+       
+    // }
+    // try{
+    //     tempLat = finalDestination.geometry.location.lat();
+    //     tempLon = finalDestination.geometry.location.lng();
+    // }
+    // catch(err){
+    //     console.log(err);
+    // }
+
+    // try {
+    //     tempLat = finalDestination[0].geometry.location.lat;
+    //     tempLon = finalDestination[0].geometry.location.lng;
+    //     console.log("using [0] : " + tempLat + " " + tempLon);
+    // }
+    // catch (err) {
+    //     console.log(err);
+    // }
+    // try{
+    //     tempLat = finalDestination.geometry.location.lat();
+    //     tempLon = finalDestination.geometry.location.lng();
+    //     console.log("using lat() and lng() : " + tempLat + " " + tempLon);
+    // }
+    // catch(err){
+    //     console.log(err);
+    // }
+    // try{
+    //     tempLat = parseFloat(finalDestination[0].geometry.location.lat());
+    //     tempLon = parseFloat(finalDestination[0].geometry.location.lng());
+    // }
+    // catch(err){
+    //     console.log(err);
+    // }
+    // try{
+    //     tempLat = parseFloat(finalDestination.geometry.location.lat);
+    //     tempLon = parseFloat(finalDestination.geometry.location.lng);
+    // }
+    // catch(err){
+    //     console.log(err);
+    // }
 
 
     //the request for the route path from the user(origin) to the restaurant(finalDestination)
     var request = {
         origin: { lat: lat, lng: lon },
-        destination: { lat: tempLat, lng: tempLon},
+        destination: finalDestination.geometry.location,
         travelMode: 'DRIVING'
     };
     //adds the route request to the directions service route function
