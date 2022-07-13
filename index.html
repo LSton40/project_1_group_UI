@@ -15,13 +15,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
         integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Custom Stylesheet -->
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link rel="stylesheet" href="assets/css/style.css">
 
     <title>Nowhere Special</title>
@@ -39,56 +34,69 @@
     <!-- container for form -->
     <div class="container">
         <form class="col s12">
-            <div class="row">
+
+            <div id="main-row" class="row">
                 <!-- distance dropdown -->
+
                 <div class="row">
-                <label class="black-text">Distance</label>
-                <select id="distance-entry" class="browser-default">
-                    <option class="red-text" value=""
-                            disabled selected>
-                        Choose a Distance</option>
-                    <option class="green-text" value="5">
-                        5 Miles</option>
-                    <option class="green-text" value="10">
-                        10 Miles</option>
-                    <option class="green-text" value="25">
-                        25 Miles</option>
-                    <option class="green-text" value="50">
-                        50 Miles</option>
-                    <option class="green-text" value="100">
-                        100 Miles</option>
-                </select>
+                    <label class="black-text">Distance</label>
+                    <select id="distance-entry" class="browser-default">
+                        <option class="red-text" value="" disabled selected>
+                            Choose a Distance</option>
+                        <option class="green-text" value="5">
+                            5 Miles</option>
+                        <option class="green-text" value="10">
+                            10 Miles</option>
+                        <option class="green-text" value="25">
+                            25 Miles</option>
+                        <option class="green-text" value="50">
+                            50 Miles</option>
+                        <option class="green-text" value="100">
+                            100 Miles</option>
+                    </select>
                 </div>
                 <!-- price dropdown -->
                 <div class="row">
-                <label class="black-text">Price Point</label>
-                <select id="price-entry" class="browser-default">
-                    <option class="red-text" value=""
-                            disabled selected>
-                        Choose a Price</option>
-                    <option class="green-text" value="$">
-                        $</option>
-                    <option class="green-text" value="$$">
-                        $$</option>
-                    <option class="green-text" value="$$$">
-                        $$$</option>
-                </select>
+                    <label class="black-text">Price Point</label>
+                    <select id="price-entry" class="browser-default">
+                        <option class="red-text" value="" disabled selected>
+                            Choose a Price</option>
+                        <option class="green-text" value="$">
+                            $</option>
+                        <option class="green-text" value="$$">
+                            $$</option>
+                        <option class="green-text" value="$$$">
+                            $$$</option>
+                    </select>
                 </div>
-                <!-- submit button for form -->
-                <div class="center-align">
-                    <button class="btn waves-effect waves-light blue lighten-2 black-text" type="submit"
-                        name="action">Submit</button>
+                <div id="button-container" class="row container">
+                    <!-- submit button for form -->
+                    <div id="submit-container" class=" col s s12 m3 offset-m2 l3 offset-l2 center-align">
+                        <button  class="btn btn-submit waves-effect waves-light" type="submit"
+                            name="action">Submit</button>
+                    </div>
+                    <div id="prev-container" class="col s12 m3 offset-m3 l3 offset-l2 center-align">
+                        <button class="btn btn-prev waves-effect waves-light" type="submit"
+                            name="action">Prev</button>
+                    </div>
                 </div>
+            </div>
         </form>
     </div>
     <!-- place details -->
     <div class="container-hide container">
-        <ul>
-            <li>Name:<p id="name"></p></li>
-            <li>Address<p id="address"></p></li>
-            <li>Hours:<p id="hours"></p></li>
-            <li>Phone Number:<p id="number"></p></li>
-        </ul>
+        <div class="row">
+            <div class="col m12 m5">
+                <div class="card-panel blue lighten-2">
+                    <ul>
+                        <li>Name:<p id="name"></p>
+                        </li>
+                        <li>Address<p id="address"></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- placeholder for map -->
@@ -96,6 +104,15 @@
     <div id="map" class="container border">
         <img src="https://api.lorem.space/image/movie?w=150&h=220">
     </div>
+
+    <br>
+
+    <!-- Selection Holding screen -->
+    <div id="holdingText" class="container-hide container">
+        <p>Hang on, I'm thinking about it!<span class="ellipsis">...</span></p>
+    </div>
+
+    <!-- history -->
 
 
     <!-- JQUERY -->
@@ -109,7 +126,6 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=places&v=weekly"
         defer></script>
-    
 
     <script src="assets/js/script.js"></script>
 </body>

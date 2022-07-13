@@ -1,4 +1,5 @@
-var searchButton = document.querySelector('.btn');
+var searchButton = document.querySelector('.btn-submit');
+var previousButton = document.querySelector('.btn-prev');
 
 //access token for Marks google apiaccount
 const googleApiKey = "AIzaSyD-9tSrkeQiwvdz8Mj6PelMkvzqjqWhP7w";
@@ -18,7 +19,13 @@ var finalDestination;
 var mapMarkers = [];
 var directionsDisplay;
 var directionsService;
+
+var localStorageHistory = JSON.parse(localStorage.getItem('localStorageHistory')) || [];
+var previousRandomNumber = 0;
+var previous = false;
 var homeMarker;
+var totalResults = [];
+
 
 //callback function for initializing the google map
 function initMap() {
@@ -40,7 +47,8 @@ function initMap() {
 //geolocation for user's position, after user allows the browser to know their position
 navigator.geolocation.getCurrentPosition((position) => {
 
-    var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    // var coordinates = {lat: position.coords.latitude, lng: position.coords.longitude};
+    var coordinates = {lat: 44.078, lng: -92.509}
     lat = coordinates.lat;
     lon = coordinates.lng;
     console.log(position);
@@ -54,7 +62,7 @@ navigator.geolocation.getCurrentPosition((position) => {
         position: coordinates,
         map
     });
-   
+
     console.log(map);
     service = new google.maps.places.PlacesService(map);
     getLocalRestaurants(lon, lat, distance, price)
@@ -80,7 +88,7 @@ searchButton.addEventListener('click', function (e) {
     // changes price point from user interface values to places api for price level; 0 and 1 are low and free, 2 is mid level, 3 and 4 are expensive and high end.
     // conditional formatting needed, which api call to use based on if priceEntry is provided
 
-    var priceEntry2 
+    var priceEntry2
     if (priceEntry == '$') {
         priceEntry = 1;
     } else if (priceEntry == '$$') {
@@ -96,6 +104,9 @@ searchButton.addEventListener('click', function (e) {
     //pass entries and preferences to getUserLocation function to collect restaurant data
     getLocalRestaurants(lon, lat, distanceEntry, priceEntry)
 
+    $('#map').addClass('container-hide');
+    $('#holdingText').removeClass('container-hide');
+
 });
 
 
@@ -107,8 +118,6 @@ function getLocalRestaurants(lon, lat, distance, price) {
         radius: distance,
         types: ['restaurant', 'food', 'bar'],
         maxPriceLevel: price,
-        openNow: true,
-        opening_hours
     };
 
     console.log(request);
@@ -125,30 +134,59 @@ function getLocalRestaurants(lon, lat, distance, price) {
                 console.log(status);
                 return;
             }
-            // console.log(results);
-            // if (pagination.hasNextPage === true) {
-            //     results.concat(pagination.nextPage());
-            // }
-            console.log(results);
+
+ 
+            //Compiles all pages of results into a single array
+            totalResults = totalResults.concat(results);
+            pagination.nextPage()
+
             //send the results of the restaurant search to the addPlaces function
-            addPlaces(results);
+            if (pagination.hasNextPage === false || totalResults.length === 200) {
+                generateRandomPlace(totalResults);
+                $('#holdingText').addClass('container-hide');
+                $('#map').removeClass('container-hide');
+                };
+            
         }
     )
 
 }
 
 //adds all the places provided by the getLocalRestaurants function to the map
-function addPlaces(places) {
+function generateRandomPlace(places) {
     //loops through every places(restaurant object) and adds it to the map
     // for (const place of places) {
     //
+
     var randomIndex = Math.floor(Math.random() * places.length)
+    while (randomIndex == previousRandomNumber) {
+        randomIndex = Math.floor(Math.random() * places.length)
+    }
     console.log(randomIndex);
     var place = places[randomIndex];
     //if the place has a geometry property it is a restaurant
-    finalDestination = place;
-    if (place.geometry && place.geometry.location) {
+    addMarker(place);
+    console.log("place : " + place);
+}
 
+//adds a marker to the given place on the map
+function addMarker(place, previous) {
+    if (place.geometry && place.geometry.location) {
+        //if place is a restaurant
+        if (!previous) {
+            console.log(previous);
+
+            localStorageHistory.push(place);
+            localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory));
+            console.log(localStorageHistory);
+            finalDestination = place;
+
+        }
+        else {
+            finalDestination = place;
+            localStorage.setItem("localStorageHistory", JSON.stringify(localStorageHistory))
+
+        }
         //remove previous markers
         if (mapMarkers.length > 0) {
             mapMarkers[0].setMap(null);
@@ -175,30 +213,58 @@ function addPlaces(places) {
         mapMarkers[0].setMap(map);
         //as soon as the marker is placed, set the route
         setRoute();
+
         //place details, appears above map
         $('.container-hide').css('display', 'flex')
         $('#name').text(place.name)
         $('#address').text(place.vicinity)
-        console.log(place.opening_hours)
+        console.log(place)
+
     }
 }
-//array of place
-//random variable
-//change the zoom to random variable, set color, then set center
 
-// }
+
+
+
+previousButton.addEventListener('click', function (e) {
+    e.preventDefault();
+    console.log("local storage history: " + localStorageHistory);
+    if (localStorageHistory.length > 0) {
+        console.log(localStorageHistory.length);
+        var loadMarker = localStorageHistory;
+        console.log("local storage history: " + localStorageHistory);
+        console.log(loadMarker[0]);
+        console.log("the type of local storage history is: " + typeof localStorageHistory);
+        previous = true;
+        addMarker(localStorageHistory.pop(), previous);
+        console.log("set false first");
+        previous = false;
+        // localStorageHistory.shift();
+        console.log("local storage history post shift: " + localStorageHistory);
+
+
+    }
+});
+
 
 //sets the route between the user and the restaurant
 function setRoute() {
+    var tempLat;
+    var tempLon;
+    var tempLocation;
+    console.log(finalDestination[0]);
+    console.log(finalDestination);
+    console.log("using false first");
+
     //the request for the route path from the user(origin) to the restaurant(finalDestination)
     var request = {
         origin: { lat: lat, lng: lon },
-        destination: { lat: finalDestination.geometry.location.lat(), lng: finalDestination.geometry.location.lng() },
+        destination: finalDestination.geometry.location,
         travelMode: 'DRIVING'
     };
     //adds the route request to the directions service route function
     directionsService.route(request, (result, state) => {
-
+        console.log("request: " + request + " result: " + " state: " + state);
 
         if (state == 'OK') {
             directionsDisplay.setDirections(result);
