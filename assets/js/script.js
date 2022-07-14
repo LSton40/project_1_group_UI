@@ -61,6 +61,7 @@ navigator.geolocation.getCurrentPosition((position) => {
     getLocalRestaurants(lon, lat, distance, price)
 });
 
+
 //Event listener for search button
 searchButton.addEventListener('click', function (e) {
     e.preventDefault();
